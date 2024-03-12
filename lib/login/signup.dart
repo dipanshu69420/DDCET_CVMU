@@ -28,8 +28,14 @@ class _SignupState extends State<Signup> {
     return Scaffold(
       body: Center(
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.95,
-          width: MediaQuery.of(context).size.width * 0.95,
+          height: MediaQuery
+              .of(context)
+              .size
+              .height * 0.95,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.95,
           child: Form(
             key: _formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -40,9 +46,9 @@ class _SignupState extends State<Signup> {
                 Container(
                   alignment: Alignment.center,
                   child: Image.asset(
-              "assets/cvmu-logo.png",
-              height: 80,
-            ),
+                    "assets/cvmu-logo.png",
+                    height: 80,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
@@ -58,7 +64,7 @@ class _SignupState extends State<Signup> {
                       controller: _firstname,
                       validator: (value) {
                         if (value == null ||
-                            value.isEmpty ) {
+                            value.isEmpty) {
                           return 'Enter a first name';
                         }
                         return null;
@@ -318,8 +324,8 @@ class _SignupState extends State<Signup> {
                       controller: _email,
                       validator: (value) {
                         if (value == null ||
-                            value.isEmpty||
-                        !value.contains('@')){
+                            value.isEmpty ||
+                            !value.contains('@')) {
                           return 'Enter valid email';
                         }
                         return null;
@@ -407,7 +413,16 @@ class _SignupState extends State<Signup> {
                         var state = _state.text;
                         var email = _email.text;
                         var pass = _password.text;
-                        signup(firstname, lastname, college, mobile, city, state, email, pass, context);
+                        signup(
+                            firstname,
+                            lastname,
+                            college,
+                            mobile,
+                            city,
+                            state,
+                            email,
+                            pass,
+                            context);
                         setState(() {
                           isLoading = false;
                         });
@@ -446,51 +461,35 @@ class _SignupState extends State<Signup> {
       ),
     );
   }
-  void signup(String firstname,String lastname, String college, String mobile, String city, String state, String email, String password, BuildContext context) async {
+
+  void signup(String firstname, String lastname, String college, String mobile, String city, String state, String email, String password, BuildContext context) async {
     try {
       var url = Uri.parse('https://www.gcet.ac.in/ddcet/items/register');
-      var data = {"firstName": firstname,
-        "lastName":lastname,
-        "college":college,
-        "mobile":mobile,
-        "state":state,
-        "email":email,
-        "city":city,
-        "pwd":password};
-      print(data);// Make sure email and password are strings
+      var data = {
+        "firstName": firstname,
+        "lastName": lastname,
+        "college": college,
+        "mobile": mobile,
+        "state": state,
+        "email": email,
+        "city": city,
+        "pwd": password
+      };
+      print(data); // Make sure email and password are strings
       var response = await http.post(url, body: json.encode(data));
-      if (response.statusCode == 200 ) {
+      if (response.statusCode == 200) {
         print(response.body);
-        if (response.body=="Success")
-        {
-          // showDialog(
-          //   context: context,
-          //   builder: (context) => AlertDialog(
-          //     title: const Text("Alert"),
-          //     content: const Text('Invalid Entry'),
-          //     actions: [
-          //       TextButton(
-          //         child: const Text(
-          //           'Ok',
-          //           style: TextStyle(color: Color.fromRGBO(36, 59, 85, 1)),
-          //         ),
-          //         onPressed: () {
-          //           Navigator.of(context).pop();
-          //         },
-          //       ),
-          //     ],
-          //   ),
-          // );
+        if (response.body == "Success") {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Login()),
           );
-        } else {
+        } else if (response.body == "exist") {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
               title: const Text("Alert"),
-              content: const Text('Enter valid Details'),
+              content: const Text('Email already exists. Please use a different email or login.'),
               actions: [
                 TextButton(
                   child: const Text(
@@ -504,11 +503,26 @@ class _SignupState extends State<Signup> {
               ],
             ),
           );
-        //   Navigator.push(
-        //     context,
-        //     MaterialPageRoute(builder: (context) => HomePage()),
-        //   );
-         }
+        } else {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text("Alert"),
+              content: const Text('Email Already Registered.'),
+              actions: [
+                TextButton(
+                  child: const Text(
+                    'Ok',
+                    style: TextStyle(color: Color.fromRGBO(36, 59, 85, 1)),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        }
       } else {
         print('Failed to fetch data. Error code:');
       }

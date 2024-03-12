@@ -44,6 +44,21 @@ class Api {
     }
   }
 
+  Future<List<dynamic>> getRandomQuestions() async {
+    final res = await http.get(
+      Uri.parse('https://www.gcet.ac.in/ddcet/items/read'),
+      headers: {"Content-Type": "application/json"},
+    );
+    if (res.statusCode == 200) {
+      List<dynamic> response = converterToModel(jsonDecode(res.body));
+      return response;
+    } else {
+      return [];
+    }
+  }
+
+
+
   List<dynamic> converterToModel(List<dynamic> response) {
     var widgetQuestionsList = [];
     for (var element in response) {

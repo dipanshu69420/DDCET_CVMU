@@ -5,6 +5,7 @@ import 'package:cvmuproject/views/flashcard_screen.dart';
 import 'package:cvmuproject/mock_test_model/mock_quiz_screen.dart';
 import 'package:cvmuproject/views/quiz_screen.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,9 +21,25 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    api.getQuestion();
+    // api.getQuestion();
+    fetchQuestions();
   }
-
+  void fetchQuestions() {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      api.getQuestion(); // Assuming getQuestion method fetches questions from the API
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      print("Error fetching questions: $e");
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     const Color bgColor = Color(0xFF4993FA);
@@ -64,11 +81,11 @@ class _HomePageState extends State<HomePage> {
                       TextSpan(
                         text: "DDCET Preparation",
                         style:
-                            Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                  fontSize: 24,
-                                  color: Color(0xff0065A7),
-                                  fontWeight: FontWeight.w600,
-                                ),
+                        Theme.of(context).textTheme.headlineSmall!.copyWith(
+                          fontSize: 24,
+                          color: Color(0xff0065A7),
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ],
                   ),
@@ -125,37 +142,37 @@ class _HomePageState extends State<HomePage> {
                       ),
                       child: (isLoading && loadingCard == index)
                           ? const Center(
-                              child: CircularProgressIndicator(
-                                color: bgColor,
+                        child: CircularProgressIndicator(
+                          color: bgColor,
+                        ),
+                      )
+                          : Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              topicsData.topicIcon,
+                              height: 60,
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              topicsData.topicName,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w300,
                               ),
                             )
-                          : Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    topicsData.topicIcon,
-                                    height: 60,
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text(
-                                    topicsData.topicName,
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall!
-                                        .copyWith(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                  )
-                                ],
-                              ),
-                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 },
@@ -184,7 +201,7 @@ class _HomePageState extends State<HomePage> {
                     dynamic randomOptions = randomQuestionsMap.values.toList();
                     await Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => MockQuizScreen(
+                        builder: (context) => QuizScreen(
                           questionlenght: widgetQuestionsList,
                           optionsList: randomOptions,
                           topicType: "Mock Test",
@@ -199,33 +216,49 @@ class _HomePageState extends State<HomePage> {
                     "Mock Test",
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 const VerticalDivider(),
                 InkWell(
-                  onTap: () {
-                    // Navigator.of(context).pushReplacement(
-                    //     MaterialPageRoute(
-                    //       builder: (context) => QuizScreen(
-                    //         questionlenght: randomQuestions,
-                    //         optionsList: randomOptions,
-                    //         topicType: "Mock Test",
-                    //       ),
-                    //     ),
-                    //   );
+                  onTap: () async {
+                    try {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      List<WidgetQuestion> randomQuestions = await api.getRandomQuestions();
+                      if (randomQuestions.isNotEmpty) {
+                        await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => MockQuizScreen(
+                              questionlenght: randomQuestions,
+                              optionsList: randomQuestions.map((question) => question.options).toList(), // Pass the optionsList here
+
+                              topicType: "Mock Test",
+                            ),
+                          ),
+                        );
+                      }
+                    } catch (e) {
+                      print("Error: $e");
+                    } finally {
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
                   },
+
                   child: Text(
                     "Prep. Test",
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cvmuproject/views/results_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -239,6 +238,7 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
                                               }
                                             },
                                             child: Container(
+                                              height: 45,
                                               padding: const EdgeInsets.all(10),
                                               margin:
                                               const EdgeInsets.symmetric(
@@ -256,29 +256,24 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
                                                 MainAxisAlignment
                                                     .spaceBetween,
                                                 children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      "$letters ${questionOption.text}",
-                                                      maxLines: 5,
-                                                      overflow:
-                                                      TextOverflow.ellipsis,
-                                                      style: const TextStyle(
-                                                          fontSize: 16),
-                                                    ),
+                                                  Text(
+                                                    "$letters ${questionOption.text}",
+                                                    style: const TextStyle(
+                                                        fontSize: 16),
                                                   ),
-                                                  isLocked == true
-                                                      ? questionOption.isCorrect
-                                                      ? const Icon(
-                                                    Icons
-                                                        .check_circle,
-                                                    color:
-                                                    Colors.green,
-                                                  )
-                                                      : const Icon(
-                                                    Icons.cancel,
-                                                    color: Colors.red,
-                                                  )
-                                                      : const SizedBox.shrink()
+                                                  // isLocked == true
+                                                  //     ? questionOption.isCorrect
+                                                  //         ? const Icon(
+                                                  //             Icons
+                                                  //                 .check_circle,
+                                                  //             color:
+                                                  //                 Colors.green,
+                                                  //           )
+                                                  //         : const Icon(
+                                                  //             Icons.cancel,
+                                                  //             color: Colors.red,
+                                                  //           )
+                                                  //     : const SizedBox.shrink()
                                                 ],
                                               ),
                                             ),

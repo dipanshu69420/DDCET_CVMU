@@ -48,7 +48,6 @@ class MockResultsCard extends StatelessWidget {
                                     .copyWith(fontSize: 12 + ii.toDouble()),
                               ),
                             ],
-                            //m'adamfo(Twi) - my friend
                             TextSpan(
                               text: "You Scored \n",
                               style: Theme.of(context).textTheme.bodySmall,

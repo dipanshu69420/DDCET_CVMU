@@ -21,7 +21,7 @@ class WidgetQuestion {
       text: text,
       options: options
           .map((option) =>
-              WiidgetOption(text: option.text, isCorrect: option.isCorrect))
+          WiidgetOption(text: option.text, isCorrect: option.isCorrect))
           .toList(),
       isLocked: isLocked,
       selectedWiidgetOption: selectedWiidgetOption,
@@ -43,186 +43,186 @@ class WiidgetOption {
 final widgetQuestionsList = [
   WidgetQuestion(
     text:
-        "I am a Flutter widget that provides a scrollable list of children. What am I?",
+    "What happens when dilute hydrochloric acid is added to iron fillings?",
     options: [
-      const WiidgetOption(text: "ListView", isCorrect: true),
-      const WiidgetOption(text: "Column", isCorrect: false),
-      const WiidgetOption(text: "Row", isCorrect: false),
-      const WiidgetOption(text: "Wrap", isCorrect: false),
+      const WiidgetOption(text: "Hydrogen gas and iron chloride are produced", isCorrect: true),
+      const WiidgetOption(text: "Chlorine gas and iron hydroxide are produced", isCorrect: false),
+      const WiidgetOption(text: "No reaction takes place", isCorrect: false),
+      const WiidgetOption(text: "Iron salt and water are produced", isCorrect: false),
     ],
     id: 0,
     correctAnswer: const WiidgetOption(text: "ListView", isCorrect: true),
   ),
   WidgetQuestion(
       text:
-          "I am a widget used to display a single piece of content and expand to fill the available space. What am I?",
+      "Unit of Force is ____",
       options: [
-        const WiidgetOption(text: "Flexible", isCorrect: false),
-        const WiidgetOption(text: "Expanded", isCorrect: true),
-        const WiidgetOption(text: "Container", isCorrect: false),
-        const WiidgetOption(text: "SizedBox", isCorrect: false),
+        const WiidgetOption(text: "Newton", isCorrect: true),
+        const WiidgetOption(text: "Kg/sec", isCorrect: false),
+        const WiidgetOption(text: "Joule", isCorrect: false),
+        const WiidgetOption(text: "Watt", isCorrect: false),
       ],
       id: 1,
       correctAnswer: const WiidgetOption(text: "Expanded", isCorrect: true)),
   WidgetQuestion(
       text:
-          "I am a circular or elliptical shape with a specific radius. What am I?",
+      "Solution of 3x-y=0 and x+y=4 in the form (x,y) is ",
       options: [
-        const WiidgetOption(text: "ClipRRect", isCorrect: false),
-        const WiidgetOption(text: "DecoratedBox", isCorrect: false),
-        const WiidgetOption(text: "ClipOval", isCorrect: false),
-        const WiidgetOption(text: "CircleAvatar", isCorrect: true),
+        const WiidgetOption(text: "(2,0)", isCorrect: false),
+        const WiidgetOption(text: "(2,1)", isCorrect: false),
+        const WiidgetOption(text: "(1,2)", isCorrect: false),
+        const WiidgetOption(text: "(1,3)", isCorrect: true),
       ],
       id: 2,
       correctAnswer:
-          const WiidgetOption(text: "CircleAvatar", isCorrect: true)),
+      const WiidgetOption(text: "CircleAvatar", isCorrect: true)),
   WidgetQuestion(
       text:
-          "I am a widget that creates a button with an icon and a label. What am I?",
+      "Lactic Acid is present in",
       options: [
-        const WiidgetOption(text: "Elevated Button", isCorrect: false),
-        const WiidgetOption(text: "TextButton", isCorrect: false),
-        const WiidgetOption(text: "IconButton", isCorrect: true),
-        const WiidgetOption(text: "TextButton.icon", isCorrect: false),
+        const WiidgetOption(text: "Orange", isCorrect: false),
+        const WiidgetOption(text: "Tea", isCorrect: false),
+        const WiidgetOption(text: "Curd", isCorrect: true),
+        const WiidgetOption(text: "Vinegar", isCorrect: false),
       ],
       id: 3,
       correctAnswer: const WiidgetOption(text: "IconButton", isCorrect: true)),
   WidgetQuestion(
       text:
-          " I am a widget that provides a responsive grid of tiles with multiple children. What am I?",
+      " The absolute thermodynamic temperature scale is also referred as________",
       options: [
-        const WiidgetOption(text: "ListTile", isCorrect: false),
-        const WiidgetOption(text: "singleChildScrollView", isCorrect: false),
-        const WiidgetOption(text: "ListView", isCorrect: false),
-        const WiidgetOption(text: "GridView", isCorrect: true),
+        const WiidgetOption(text: "Celcius Scale", isCorrect: false),
+        const WiidgetOption(text: "Kelvin Scale", isCorrect: true),
+        const WiidgetOption(text: "Both", isCorrect: false),
+        const WiidgetOption(text: "None of the above", isCorrect: false),
       ],
       id: 4,
       correctAnswer: const WiidgetOption(text: "GridView", isCorrect: true)),
   WidgetQuestion(
       text:
-          "I am a widget that creates a collapsible tile with an optional leading and trailing widget. What am I?",
+      "I ___________ to the gym every day.",
       options: [
-        const WiidgetOption(text: "ExpansionTile", isCorrect: true),
-        const WiidgetOption(text: "DropdownButton", isCorrect: false),
-        const WiidgetOption(text: "Card", isCorrect: false),
-        const WiidgetOption(text: "AppBar", isCorrect: false),
+        const WiidgetOption(text: "Go", isCorrect: true),
+        const WiidgetOption(text: "Goes", isCorrect: false),
+        const WiidgetOption(text: "Went", isCorrect: false),
+        const WiidgetOption(text: "Will go", isCorrect: false),
       ],
       id: 5,
       correctAnswer:
-          const WiidgetOption(text: "ExpansionTile", isCorrect: true)),
+      const WiidgetOption(text: "ExpansionTile", isCorrect: true)),
   WidgetQuestion(
       text:
-          " I am a widget that provides a rectangular box with a specified width, height, and color. What am I?",
+      " Equation of a line which passes through (1,-2) and cuts off equal intercepts on the axes is ___",
       options: [
-        const WiidgetOption(text: "Container", isCorrect: true),
-        const WiidgetOption(text: "Card", isCorrect: false),
-        const WiidgetOption(text: "SizedBox", isCorrect: false),
-        const WiidgetOption(text: "Padding", isCorrect: false),
+        const WiidgetOption(text: "x+y=1", isCorrect: false),
+        const WiidgetOption(text: "x-y=1", isCorrect: false),
+        const WiidgetOption(text: "x+y=-1", isCorrect: true),
+        const WiidgetOption(text: "x-y=-1", isCorrect: false),
       ],
       id: 6,
       correctAnswer: const WiidgetOption(text: "Container", isCorrect: true)),
   WidgetQuestion(
       text:
-          "I am a widget that displays an image from the specified network URL. What am I?",
+      "Light waves are",
       options: [
-        const WiidgetOption(text: "Image.network", isCorrect: true),
-        const WiidgetOption(text: "AssetImage", isCorrect: false),
-        const WiidgetOption(text: "Image.asset", isCorrect: false),
-        const WiidgetOption(text: "Image.file", isCorrect: false),
+        const WiidgetOption(text: "Mechanical Waves", isCorrect: false),
+        const WiidgetOption(text: "Non Mechanical Waves", isCorrect: true),
+        const WiidgetOption(text: "Both A and B", isCorrect: false),
+        const WiidgetOption(text: "None of the above", isCorrect: false),
       ],
       id: 7,
       correctAnswer:
-          const WiidgetOption(text: "Image.network", isCorrect: true)),
+      const WiidgetOption(text: "Image.network", isCorrect: true)),
   WidgetQuestion(
       text:
-          "I give Material apps their signature reactive ink splash effect. Who am I?",
+      "If the frequency of a wave is 60 Hz, what is its periodic time?",
       options: [
-        const WiidgetOption(text: "InkWell", isCorrect: true),
-        const WiidgetOption(text: "GestureDetector", isCorrect: false),
-        const WiidgetOption(text: "AbsorbPointer", isCorrect: false),
-        const WiidgetOption(text: "IgnorePointer", isCorrect: false),
+        const WiidgetOption(text: "0.02s", isCorrect: false),
+        const WiidgetOption(text: "0.016s", isCorrect: true),
+        const WiidgetOption(text: "0.5s", isCorrect: false),
+        const WiidgetOption(text: "2s", isCorrect: false),
       ],
       id: 8,
       correctAnswer: const WiidgetOption(text: "InkWell", isCorrect: true)),
   WidgetQuestion(
       text:
-          "I am a widget that provides a material design styled line divider. What am I?",
+      "The concert ___________ at 7 PM yesterday.",
       options: [
-        const WiidgetOption(text: "Divider", isCorrect: true),
-        const WiidgetOption(text: "SizedBox", isCorrect: false),
-        const WiidgetOption(text: "Container", isCorrect: false),
-        const WiidgetOption(text: "ListTile", isCorrect: false),
+        const WiidgetOption(text: "Started", isCorrect: true),
+        const WiidgetOption(text: "Starts", isCorrect: false),
+        const WiidgetOption(text: "Will Start", isCorrect: false),
+        const WiidgetOption(text: "Is Starting", isCorrect: false),
       ],
       id: 9,
       correctAnswer: const WiidgetOption(text: "Divider", isCorrect: true)),
   WidgetQuestion(
       text:
-          "I am a widget that displays a circular material design spinner to indicate loading. What am I?",
+      "Which of the following reaction can also be termed a thermal decomposition reaction?",
       options: [
-        const WiidgetOption(text: "LinearProgressIndicator", isCorrect: false),
-        const WiidgetOption(text: "RefreshIndicator", isCorrect: false),
-        const WiidgetOption(text: "CircularProgressIndicator", isCorrect: true),
-        const WiidgetOption(text: "LoadingIndicator", isCorrect: false),
+        const WiidgetOption(text: "Combination Reaction", isCorrect: false),
+        const WiidgetOption(text: "Decomposition Reaction", isCorrect: true),
+        const WiidgetOption(text: "Displacement Reaction", isCorrect: false),
+        const WiidgetOption(text: "Double Displacement Reaction", isCorrect: false),
       ],
       id: 10,
       correctAnswer: const WiidgetOption(
           text: "CircularProgressIndicator", isCorrect: true)),
   WidgetQuestion(
       text:
-          "I am a widget that displays a material design styled tooltip when the user hovers over it. What am I?",
+      "The maximum distance from the equilibrium is known as ____",
       options: [
-        const WiidgetOption(text: "Popover", isCorrect: false),
-        const WiidgetOption(text: "Tooltip", isCorrect: true),
-        const WiidgetOption(text: "Snackbar", isCorrect: false),
-        const WiidgetOption(text: "HintText", isCorrect: false),
+        const WiidgetOption(text: "Wavelength", isCorrect: false),
+        const WiidgetOption(text: "Frequency", isCorrect: true),
+        const WiidgetOption(text: "Amplitude", isCorrect: false),
+        const WiidgetOption(text: "Periodic Time", isCorrect: false),
       ],
       id: 11,
       correctAnswer: const WiidgetOption(text: "Tooltip", isCorrect: true)),
   WidgetQuestion(
       text:
-          "I am the folder containing assets like images, fonts, json files etc. What am I?",
+      "The slope of a line which makes an angle -π/4 with the positive direction of X-axis is ",
       options: [
-        const WiidgetOption(text: "static", isCorrect: false),
-        const WiidgetOption(text: "assets", isCorrect: true),
-        const WiidgetOption(text: "resources", isCorrect: false),
-        const WiidgetOption(text: "images", isCorrect: false),
+        const WiidgetOption(text: "-1", isCorrect: true),
+        const WiidgetOption(text: "1", isCorrect: false),
+        const WiidgetOption(text: "1/2", isCorrect: false),
+        const WiidgetOption(text: "0", isCorrect: false),
       ],
       id: 12,
       correctAnswer: const WiidgetOption(text: "assets", isCorrect: true)),
   WidgetQuestion(
       text:
-          "I am the programming language used to build Flutter apps. What am I?",
+      "If y=xsinx + cosx, then dy/dx=________.",
       options: [
-        const WiidgetOption(text: "Dart", isCorrect: true),
-        const WiidgetOption(text: "Java", isCorrect: false),
-        const WiidgetOption(text: "Swift", isCorrect: false),
-        const WiidgetOption(text: "Kotlin", isCorrect: false),
+        const WiidgetOption(text: "xcosx- sinx", isCorrect: false),
+        const WiidgetOption(text: "xsinx", isCorrect: false),
+        const WiidgetOption(text: "xcosx", isCorrect: true),
+        const WiidgetOption(text: "xcos + 2sinx", isCorrect: false),
       ],
       id: 13,
       correctAnswer: const WiidgetOption(text: "Dart", isCorrect: true)),
   WidgetQuestion(
     text:
-        "I am a mechanism that allows you to incorporate platform-specific UI elements into a Flutter app. What am I?",
+    "She ___________ for the company for five years before she got promoted.",
     options: [
-      const WiidgetOption(text: "Native view", isCorrect: false),
-      const WiidgetOption(text: "Platform channels", isCorrect: true),
-      const WiidgetOption(text: "JNI", isCorrect: false),
-      const WiidgetOption(text: "Bridge", isCorrect: false),
+      const WiidgetOption(text: "Works", isCorrect: false),
+      const WiidgetOption(text: "Is Working", isCorrect: false),
+      const WiidgetOption(text: "will Work", isCorrect: false),
+      const WiidgetOption(text: "Worked", isCorrect: true),
     ],
     id: 14,
     correctAnswer:
-        const WiidgetOption(text: "Platform channels", isCorrect: true),
+    const WiidgetOption(text: "Platform channels", isCorrect: true),
   ),
-  WidgetQuestion(
-    text:
-        "I am a property that uniquely identifies a widget and allows it to be updated efficiently. What am I?",
-    options: [
-      const WiidgetOption(text: "key", isCorrect: true),
-      const WiidgetOption(text: "id", isCorrect: false),
-      const WiidgetOption(text: "name", isCorrect: false),
-      const WiidgetOption(text: "tag", isCorrect: false),
-    ],
-    id: 15,
-    correctAnswer: const WiidgetOption(text: "key", isCorrect: true),
-  ),
+  // WidgetQuestion(
+  //   text:
+  //   "I am a property that uniquely identifies a widget and allows it to be updated efficiently. What am I?",
+  //   options: [
+  //     const WiidgetOption(text: "key", isCorrect: true),
+  //     const WiidgetOption(text: "id", isCorrect: false),
+  //     const WiidgetOption(text: "name", isCorrect: false),
+  //     const WiidgetOption(text: "tag", isCorrect: false),
+  //   ],
+  //   id: 15,
+  //   correctAnswer: const WiidgetOption(text: "key", isCorrect: true),
+  // ),
 ];

@@ -48,7 +48,7 @@ final List<FlutterTopics> flutterTopicsList = [
     id: 3,
     topicColor: cardColor,
     topicIcon: "assets/softskills.png",
-    topicName: "Soft skills",
+    topicName: "Soft Skills",
     topicQuestions: layOutQuestionsList,
   ),
 ];
