@@ -19,7 +19,7 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  int questionTimerSeconds = 20;
+  int questionTimerSeconds = 120;
   Timer? _timer;
   int _questionNumber = 1;
   PageController _controller = PageController();
@@ -90,7 +90,6 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     const Color bgColor3 = Color(0xFF234277);
-    const Color bgColor = Color(0xFF4993FA);
     const Color buttonColor = Color(0xffFFB200);
     return WillPopScope(
       onWillPop: () {
@@ -107,6 +106,7 @@ class _QuizScreenState extends State<QuizScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "${widget.topicType} Riddles",
@@ -115,6 +115,14 @@ class _QuizScreenState extends State<QuizScreen> {
                           fontSize: 20,
                           fontWeight: FontWeight.w400),
                       overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      "Timer: $questionTimerSeconds",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ],
                 ),
@@ -138,6 +146,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     ],
                   ),
                 ),
+
                 Container(
                   padding: const EdgeInsets.only(top: 12, left: 10, right: 10),
                   width: MediaQuery.of(context).size.width * 0.90,

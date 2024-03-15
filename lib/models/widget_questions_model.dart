@@ -43,7 +43,7 @@ class WiidgetOption {
 final widgetQuestionsList = [
   WidgetQuestion(
     text:
-    "What happens when dilute hydrochloric acid is added to iron fillings?",
+    "ABC?",
     options: [
       const WiidgetOption(text: "Hydrogen gas and iron chloride are produced", isCorrect: true),
       const WiidgetOption(text: "Chlorine gas and iron hydroxide are produced", isCorrect: false),

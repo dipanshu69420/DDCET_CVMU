@@ -171,41 +171,41 @@ class _LoginState extends State<Login> {
                   ),
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 18, 0, 18),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ForgotPassword()),
-                      );
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: 240,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            const Color.fromRGBO(20, 30, 48, 1),
-                            const Color.fromRGBO(36, 59, 85, 1),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Text(
-                        "Forgot Password",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: "Adagio Sans",
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(0, 18, 0, 18),
+                //   child: GestureDetector(
+                //     onTap: () {
+                //       Navigator.push(
+                //         context,
+                //         MaterialPageRoute(builder: (context) => ForgotPassword()),
+                //       );
+                //     },
+                //     child: Container(
+                //       alignment: Alignment.center,
+                //       width: 240,
+                //       height: 60,
+                //       decoration: BoxDecoration(
+                //         gradient: LinearGradient(
+                //           begin: Alignment.topCenter,
+                //           end: Alignment.bottomCenter,
+                //           colors: [
+                //             const Color.fromRGBO(20, 30, 48, 1),
+                //             const Color.fromRGBO(36, 59, 85, 1),
+                //           ],
+                //         ),
+                //         borderRadius: BorderRadius.circular(10),
+                //       ),
+                //       child: const Text(
+                //         "Forgot Password",
+                //         style: TextStyle(
+                //           fontSize: 18,
+                //           fontFamily: "Adagio Sans",
+                //           color: Color.fromRGBO(255, 255, 255, 1),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
 
 
 

@@ -192,13 +192,18 @@ class _HomePageState extends State<HomePage> {
               children: [
                 InkWell(
                   onTap: () async {
-                    Map<dynamic, dynamic> randomQuestionsMap =
-                    getRandomQuestionsAndOptions(
-                        widgetQuestionsList, widgetQuestionsList.length);
+                    // Call your API to fetch questions data
+                    List<dynamic> response = await api.getRandomQuestions();
+                    print(response);
+                    // Convert the response data into a list of WidgetQuestion objects
+                    List<dynamic> widgetQuestionsList = api.converterToModel(response);
 
-                    List<dynamic> randomQuestions =
-                    randomQuestionsMap.keys.toList();
-                    dynamic randomOptions = randomQuestionsMap.values.toList();
+                    // Now you have access to widgetQuestionsList
+                    // You can proceed to use this list in your QuizScreen or anywhere else
+
+                    // Assuming randomOptions are available in the same order as questions
+                    List<dynamic> randomOptions = widgetQuestionsList.map((question) => question.options).toList();
+
                     await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => QuizScreen(
@@ -208,9 +213,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     );
-                    // When the mock test screen is closed, it will return here
-                    // Navigate back to the home page
-                  },
+                    },
 
                   child: Text(
                     "Mock Test",
@@ -224,32 +227,32 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const VerticalDivider(),
                 InkWell(
-                  onTap: () async {
-                    try {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      List<WidgetQuestion> randomQuestions = await api.getRandomQuestions();
-                      if (randomQuestions.isNotEmpty) {
-                        await Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => MockQuizScreen(
-                              questionlenght: randomQuestions,
-                              optionsList: randomQuestions.map((question) => question.options).toList(), // Pass the optionsList here
-
-                              topicType: "Mock Test",
-                            ),
-                          ),
-                        );
-                      }
-                    } catch (e) {
-                      print("Error: $e");
-                    } finally {
-                      setState(() {
-                        isLoading = false;
-                      });
-                    }
-                  },
+                  // onTap: () async {
+                  //   try {
+                  //     setState(() {
+                  //       isLoading = true;
+                  //     });
+                  //     List<WidgetQuestion> getQuestions = await api.getRandomQuestion();
+                  //     if (getQuestions.isNotEmpty) {
+                  //       await Navigator.of(context).push(
+                  //         MaterialPageRoute(
+                  //           builder: (context) => MockQuizScreen(
+                  //             questionlenght: getQuestions,
+                  //             optionsList: getQuestions.map((question) => question.options).toList(), // Pass the optionsList here
+                  //
+                  //             topicType: "Mock Test",
+                  //           ),
+                  //         ),
+                  //       );
+                  //     }
+                  //   } catch (e) {
+                  //     print("Error: $e");
+                  //   } finally {
+                  //     setState(() {
+                  //       isLoading = false;
+                  //     });
+                  //   }
+                  // },
 
                   child: Text(
                     "Prep. Test",
