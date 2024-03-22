@@ -2,7 +2,6 @@ import 'package:cvmuproject/views/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cvmuproject/login/login.dart';
-import 'package:cvmuproject/login/signup.dart';
 void main() {
   runApp(
     const MyApp(),
@@ -22,14 +21,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Riddles',
+      title: 'DDCET CVMU',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.deepPurple,
         ),
         useMaterial3: true,
       ),
-      home: Login(),
+      home: const Login(),
     );
   }
 }

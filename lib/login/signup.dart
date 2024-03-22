@@ -27,21 +27,16 @@ class _SignupState extends State<Signup> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
+        child: SingleChildScrollView(
         child: SizedBox(
-          height: MediaQuery
-              .of(context)
-              .size
-              .height * 0.95,
-          width: MediaQuery
-              .of(context)
-              .size
-              .width * 0.95,
-          child: Form(
-            key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+        height: MediaQuery.of(context).size.height * 0.95,
+        width: MediaQuery.of(context).size.width * 0.95,
+        child: Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   alignment: Alignment.center,
@@ -459,7 +454,7 @@ class _SignupState extends State<Signup> {
           ),
         ),
       ),
-    );
+    ));
   }
 
   void signup(String firstname, String lastname, String college, String mobile, String city, String state, String email, String password, BuildContext context) async {

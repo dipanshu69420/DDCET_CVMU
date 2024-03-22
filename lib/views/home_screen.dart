@@ -1,11 +1,15 @@
 import 'package:cvmuproject/models/flutter_topics_model.dart';
 import 'package:cvmuproject/models/widget_questions_model.dart';
 import 'package:cvmuproject/network/api.dart';
+import 'package:cvmuproject/prep_test_model/prep_test_screen.dart';
+import 'package:cvmuproject/prep_test_model/selectionList.dart';
 import 'package:cvmuproject/views/flashcard_screen.dart';
-import 'package:cvmuproject/mock_test_model/mock_quiz_screen.dart';
+import 'package:cvmuproject/views/instruction_screen.dart';
+import 'package:cvmuproject/mock_test_model//mock_quiz_screen.dart';
 import 'package:cvmuproject/views/quiz_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:flutter_tex/flutter_tex.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,12 +22,17 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = false;
   int loadingCard = -1;
   Api api = new Api();
+
   @override
   void initState() {
     super.initState();
-    // api.getQuestion();
+    api.getQuestion();
     fetchQuestions();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _showAdPopup();
+    });
   }
+
   void fetchQuestions() {
     try {
       setState(() {
@@ -40,6 +49,107 @@ class _HomePageState extends State<HomePage> {
       });
     }
   }
+
+  void _showAdPopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Theme(
+            data: ThemeData(
+              // Set the background color of the dialog
+              dialogBackgroundColor: Colors.white,
+            ),
+            child: AlertDialog(
+              title: Center(child: const Text('Affiliated Colleges')),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Image.asset(
+                          'assets/gcetlogo.jpg',
+                          width: 50,
+                          height: 50,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      const Text(
+                        'G H Patel College of Engineering & Technology',
+                        style: TextStyle(fontSize: 12), // Adjust font size here
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Image.asset(
+                          'assets/aditlogo.png',
+                          width: 50,
+                          height: 50,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      const Text(
+                        'A D Patel Institute of Technology',
+                        style: TextStyle(fontSize: 12), // Adjust font size here
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Image.asset(
+                          'assets/mbitlogo.png',
+                          width: 50,
+                          height: 50,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      const Text(
+                        'Madhuben & Bhanubhai Institute of Technology',
+                        style: TextStyle(fontSize: 12), // Adjust font size here
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Image.asset(
+                          'assets/bvmlogo.png',
+                          width: 50,
+                          height: 50,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      const Text(
+                        'BVM Engineering College',
+                        style: TextStyle(fontSize: 12), // Adjust font size here
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Close'),
+                ),
+              ],
+            ));
+      },
+    );
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     const Color bgColor = Color(0xFF4993FA);
@@ -158,6 +268,10 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(
                               height: 15,
                             ),
+                            // TeXView(
+                            //   renderingEngine: TeXRenderingEngine.katex(),
+                            //   child: TeXViewDocument(topicsData.topicName),
+                            // ),
                             Text(
                               topicsData.topicName,
                               textAlign: TextAlign.center,
@@ -194,6 +308,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () async {
                     // Call your API to fetch questions data
                     List<dynamic> response = await api.getRandomQuestions();
+                    print("modified : ");
                     print(response);
                     // Convert the response data into a list of WidgetQuestion objects
                     List<dynamic> widgetQuestionsList = api.converterToModel(response);
@@ -206,14 +321,22 @@ class _HomePageState extends State<HomePage> {
 
                     await Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => QuizScreen(
-                          questionlenght: widgetQuestionsList,
-                          optionsList: randomOptions,
-                          topicType: "Mock Test",
+                        builder: (context) => InstructionScreen(
+                          instructions: ["The Duration for the Test will be 2.5 hours i.e. 150 mins","The test contains 100 Questions which consists of questions of subjects Physics, Chemistry, Maths and English.","Two marks for each correct answer shall be awarded.","For each wrong answer and more than one attempted answer minus 0.5 (half) mark shall be added on obtained marks","Unattempted answers will have zero marks."],
+                          onStartQuiz: () {                            Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => MockQuizScreen(
+                                questionlenght: widgetQuestionsList,
+                                optionsList: randomOptions,
+                                topicType: "Mock Test",
+                              ),
+                            ),
+                          );
+                          },
                         ),
                       ),
                     );
-                    },
+                  },
 
                   child: Text(
                     "Mock Test",
@@ -227,32 +350,38 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const VerticalDivider(),
                 InkWell(
-                  // onTap: () async {
-                  //   try {
-                  //     setState(() {
-                  //       isLoading = true;
-                  //     });
-                  //     List<WidgetQuestion> getQuestions = await api.getRandomQuestion();
-                  //     if (getQuestions.isNotEmpty) {
-                  //       await Navigator.of(context).push(
-                  //         MaterialPageRoute(
-                  //           builder: (context) => MockQuizScreen(
-                  //             questionlenght: getQuestions,
-                  //             optionsList: getQuestions.map((question) => question.options).toList(), // Pass the optionsList here
-                  //
-                  //             topicType: "Mock Test",
-                  //           ),
-                  //         ),
-                  //       );
-                  //     }
-                  //   } catch (e) {
-                  //     print("Error: $e");
-                  //   } finally {
-                  //     setState(() {
-                  //       isLoading = false;
-                  //     });
-                  //   }
-                  // },
+                  onTap: () async {
+                    // Call your API to fetch questions data
+                    List<dynamic> response = await api.getRandomQuestions();
+                    print(response);
+                    // Convert the response data into a list of WidgetQuestion objects
+                    List<dynamic> widgetQuestionsList = api.converterToModel(response);
+
+                    // Now you have access to widgetQuestionsList
+                    // You can proceed to use this list in your QuizScreen or anywhere else
+
+                    // Assuming randomOptions are available in the same order as questions
+                    List<dynamic> randomOptions = widgetQuestionsList.map((question) => question.options).toList();
+
+                    await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => InstructionScreen(
+                          instructions: ["The test contains 100 Questions which consists of questions of subjects Physics, Chemistry, Maths and English.","Two marks for each correct answer shall be awarded.","For each wrong answer and more than one attempted answer minus 0.5 (half) mark shall be added on obtained marks","Unattempted answers will have zero marks."],
+                          onStartQuiz: () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => PrepQuizScreen(
+                                  questionlenght: widgetQuestionsList,
+                                  optionsList: randomOptions,
+                                  topicType: "Prep Test",
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  },
 
                   child: Text(
                     "Prep. Test",
@@ -286,3 +415,4 @@ class _HomePageState extends State<HomePage> {
     Navigator.maybePop(context);
   }
 }
+

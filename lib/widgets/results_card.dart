@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 class ResultsCard extends StatelessWidget {
   const ResultsCard({
     super.key,
+    required this.totalScores,
     required this.roundedPercentageScore,
     required this.bgColor3,
   });
-
+  final int totalScores;
   final int roundedPercentageScore;
   final Color bgColor3;
 
@@ -37,24 +38,19 @@ class ResultsCard extends StatelessWidget {
                         textAlign: TextAlign.center,
                         text: TextSpan(
                           children: [
-                            for (var ii = 0;
-                                ii < "Congratulations!,".length;
-                                ii++) ...[
                               TextSpan(
-                                text: "Congratulations!,"[ii],
+                                text: "Congratulations!",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
-                                    .copyWith(fontSize: 12 + ii.toDouble()),
+                                    .copyWith(fontSize: 40),
                               ),
-                            ],
-                            //m'adamfo(Twi) - my friend
                             TextSpan(
-                              text: "  m'adamfo\n You Scored  \n",
+                              text: " \n You Scored  \n",
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                             TextSpan(
-                              text: "$roundedPercentageScore%",
+                              text: "$totalScores",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge!
@@ -75,43 +71,61 @@ class ResultsCard extends StatelessWidget {
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 25),
-                        child: roundedPercentageScore >= 75
+                        child: (roundedPercentageScore >= 75)
                             ? Column(
-                                children: [
-                                  Text(
-                                    "You have Earned this Trophy",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                  ),
-                                  Image.asset("assets/bouncy-cup.gif",
-                                      fit: BoxFit.fill,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.25),
-                                ],
-                              )
-                            : Column(
-                                children: [
-                                  Text(
-                                    "I know You can do better!!",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                  ),
-                                  Image.asset("assets/sad.png",
-                                      fit: BoxFit.fill,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.25),
-                                ],
+                          children: [
+                            Text(
+                              "You have Earned this Trophy",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                fontWeight: FontWeight.w400,
                               ),
+                            ),
+                            Image.asset("assets/bouncy-cup.gif",
+                                fit: BoxFit.fill,
+                                height: MediaQuery.of(context).size.height *
+                                    0.25),
+                          ],
+                        )
+                            : (roundedPercentageScore > 40)
+                            ? Column(
+                          children: [
+                            Text(
+                              "I know You can do better!!",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Image.asset("assets/sad.png",
+                                fit: BoxFit.fill,
+                                height:
+                                MediaQuery.of(context).size.height *
+                                    0.25),
+                          ],
+                        )
+                            : Column(
+                          children: [
+                            Text(
+                              "Need to improve!!",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Image.asset("assets/sad.png",
+                                fit: BoxFit.fill,
+                                height:
+                                MediaQuery.of(context).size.height *
+                                    0.25),
+                          ],
+                        ),
                       ),
                     ),
                   )

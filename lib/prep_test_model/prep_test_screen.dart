@@ -4,23 +4,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cvmuproject/views/home_screen.dart';
 
-class MockQuizScreen extends StatefulWidget {
+class PrepQuizScreen extends StatefulWidget {
   final String topicType;
   final List<dynamic> questionlenght;
   final dynamic optionsList;
-  const MockQuizScreen(
+  const PrepQuizScreen(
       {Key? key,
         required this.questionlenght,
         required this.optionsList,
         required this.topicType});
 
   @override
-  State<MockQuizScreen> createState() => _MockQuizScreenState();
+  State<PrepQuizScreen> createState() => _PrepQuizScreenState();
 }
 
-class _MockQuizScreenState extends State<MockQuizScreen> {
-  int _quizDurationSeconds = 9000; // 2 hours
-  Timer? _timer;
+class _PrepQuizScreenState extends State<PrepQuizScreen> {
   int _questionNumber = 1;
   PageController _controller = PageController();
   int score = 0;
@@ -28,25 +26,6 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
   List optionsLetters = ["A.", "B.", "C.", "D."];
   List<int?> _selectedOptions = List.filled(4, null);
 
-  void startQuizTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (mounted) {
-        setState(() {
-          if (_quizDurationSeconds > 0) {
-            _quizDurationSeconds--;
-          } else {
-            _timer?.cancel();
-            navigateToResultsScreen();
-          }
-        });
-      }
-    });
-  }
-
-
-  void stopTime() {
-    _timer?.cancel();
-  }
 
   void navigateToResultsScreen() {
     Navigator.pushReplacement(
@@ -61,6 +40,7 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
     );
   }
 
+
   void navigateToNewScreen() {
     if (!isLocked) {
       if (_questionNumber < widget.questionlenght.length) {
@@ -72,7 +52,6 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
           _questionNumber++;
         });
       } else {
-        _timer?.cancel();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -92,18 +71,16 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
     super.initState();
     _controller = PageController(initialPage: 0);
     _resetQuestionLocks();
-    startQuizTimer();
   }
 
   @override
   void dispose() {
-    _timer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    const Color bgColor3 = Color(0xff0065A7);
+    const Color bgColor3 = Color(0xFF234277);
     const Color buttonColor = Color(0xffFFB200);
     return WillPopScope(
       onWillPop: () {
@@ -123,20 +100,12 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "${widget.topicType}",
+                      "${widget.topicType} Quiz",
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.w400),
                       overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      "Time Left: ${_quizDurationSeconds ~/ 3600}h ${( _quizDurationSeconds % 3600) ~/ 60}m ${_quizDurationSeconds % 60}s",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
                     ),
                   ],
                 ),
@@ -242,81 +211,81 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
                                       height: 25,
                                     ),
                                     Expanded(
-                                      child: ListView.builder(
-                                        itemCount: myquestions.options.length,
-                                        itemBuilder: (context, index) {
-                                          var color = Colors.grey.shade200;
-                                          var questionOption = myquestions.options[index];
-                                          final letters = optionsLetters[index];
-                                          // Check if the current question is the previously attempted question
-                                          if (_selectedOptions[index] != null && index == myquestions.options.indexOf(myquestions.selectedWiidgetOption)) {
-                                            color = Colors.blue; // Change color to indicate the selected option
-                                          }
+                                        child: ListView.builder(
+                                          itemCount: myquestions.options.length,
+                                          itemBuilder: (context, index) {
+                                            var color = Colors.grey.shade200;
+                                            var questionOption = myquestions.options[index];
+                                            final letters = optionsLetters[index];
+                                            // Check if the current question is the previously attempted question
+                                            if (_selectedOptions[index] != null && index == myquestions.options.indexOf(myquestions.selectedWiidgetOption)) {
+                                              color = Colors.blue; // Change color to indicate the selected option
+                                            }
 
-                                          return InkWell(
-                                            onTap: () {
-                                              if (!myquestions.isLocked && !isLocked) {
-                                                setState(() {
-                                                  myquestions.isLocked = true;
-                                                  myquestions.selectedWiidgetOption = questionOption;
-                                                  print(questionOption);
-                                                  _selectedOptions[index] = index;
-                                                  isLocked = myquestions.isLocked;
+                                            return InkWell(
+                                              onTap: () {
+                                                if (!myquestions.isLocked && !isLocked) {
+                                                  setState(() {
+                                                    myquestions.isLocked = true;
+                                                    myquestions.selectedWiidgetOption = questionOption;
+                                                    print(questionOption);
+                                                    _selectedOptions[index] = index;
+                                                    isLocked = myquestions.isLocked;
 
-                                                  // Award marks based on the user's answer
-                                                  if (questionOption.isCorrect) {
-                                                    score += 1;
-                                                    print(score);// Correct answer
-                                                  } else {
-                                                    score -= 1;
-                                                    print(score);// Incorrect answer
-                                                  }
-                                                });
-                                              } else if (!myquestions.isLocked && isLocked) {
-                                                setState(() {
-                                                  myquestions.isLocked = true;
-                                                  myquestions.selectedWiidgetOption = questionOption;
-                                                  _selectedOptions[index] = index;
-                                                  isLocked = myquestions.isLocked;
-                                                });
-                                              }
-                                            },
-                                            child: Container(
-                                              padding: const EdgeInsets.all(10),
-                                              margin: const EdgeInsets.symmetric(vertical: 8),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(color: color),
-                                                color: Colors.grey.shade100,
-                                                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      "$letters ${questionOption.text}",
-                                                      maxLines: 5,
-                                                      overflow: TextOverflow.ellipsis,
-                                                      style: const TextStyle(fontSize: 16),
+                                                    // Award marks based on the user's answer
+                                                    if (questionOption.isCorrect) {
+                                                      score += 1;
+                                                      print(score);// Correct answer
+                                                    } else {
+                                                      score -= 1;
+                                                      print(score);// Incorrect answer
+                                                    }
+                                                  });
+                                                } else if (!myquestions.isLocked && isLocked) {
+                                                  setState(() {
+                                                    myquestions.isLocked = true;
+                                                    myquestions.selectedWiidgetOption = questionOption;
+                                                    _selectedOptions[index] = index;
+                                                    isLocked = myquestions.isLocked;
+                                                  });
+                                                }
+                                              },
+                                              child: Container(
+                                                padding: const EdgeInsets.all(10),
+                                                margin: const EdgeInsets.symmetric(vertical: 8),
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(color: color),
+                                                  color: Colors.grey.shade100,
+                                                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Text(
+                                                        "$letters ${questionOption.text}",
+                                                        maxLines: 5,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: const TextStyle(fontSize: 16),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  isLocked
-                                                      ? questionOption.isCorrect
-                                                      ? const Icon(
-                                                    Icons.check_circle,
-                                                    color: Colors.transparent, // Hide the icon
-                                                  )
-                                                      : const Icon(
-                                                    Icons.cancel,
-                                                    color: Colors.transparent, // Hide the icon
-                                                  )
-                                                      : const SizedBox.shrink()
-                                                ],
+                                                    isLocked
+                                                        ? questionOption.isCorrect
+                                                        ? const Icon(
+                                                      Icons.check_circle,
+                                                      color: Colors.transparent, // Hide the icon
+                                                    )
+                                                        : const Icon(
+                                                      Icons.cancel,
+                                                      color: Colors.transparent, // Hide the icon
+                                                    )
+                                                        : const SizedBox.shrink()
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        },
-                                      )
+                                            );
+                                          },
+                                        )
                                     ),
                                     // isLocked
                                     //     ? buildElevatedButton()
@@ -480,52 +449,52 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
     }
   }
 
-  // ElevatedButton buildElevatedButton() {
-  //   //  const Color bgColor3 = Color(0xFF5170FD);
-  //   const Color cardColor = Color(0xFF4993FA);
-  //   const Color buttonColor = Color(0xffFFB200);
-  //   return ElevatedButton(
-  //     style: ButtonStyle(
-  //       backgroundColor: MaterialStateProperty.all(buttonColor),
-  //       fixedSize: MaterialStateProperty.all(
-  //         Size(MediaQuery.sizeOf(context).width * 0.80, 40),
-  //       ),
-  //       elevation: MaterialStateProperty.all(4),
-  //     ),
-  //     onPressed: () {
-  //       if (_questionNumber < widget.questionlenght.length) {
-  //         _controller.nextPage(
-  //           duration: const Duration(milliseconds: 800),
-  //           curve: Curves.easeInOut,
-  //         );
-  //         setState(() {
-  //           _questionNumber++;
-  //           isLocked = false;
-  //         });
-  //       } else {
-  //         _timer?.cancel();
-  //         Navigator.pushReplacement(
-  //           context,
-  //           MaterialPageRoute(
-  //             builder: (context) => ResultsScreen(
-  //               score: score,
-  //               totalQuestions: widget.questionlenght.length,
-  //               whichTopic: widget.topicType,
-  //             ),
-  //           ),
-  //         );
-  //       }
-  //     },
-  //     child: Text(
-  //       _questionNumber < widget.questionlenght.length
-  //           ? 'Next Question'
-  //           : 'Result',
-  //       style: Theme.of(context).textTheme.bodySmall!.copyWith(
-  //         color: Colors.white,
-  //         fontSize: 16,
-  //         fontWeight: FontWeight.w500,
-  //       ),
-  //     ),
-  //   );
+// ElevatedButton buildElevatedButton() {
+//   //  const Color bgColor3 = Color(0xFF5170FD);
+//   const Color cardColor = Color(0xFF4993FA);
+//   const Color buttonColor = Color(0xffFFB200);
+//   return ElevatedButton(
+//     style: ButtonStyle(
+//       backgroundColor: MaterialStateProperty.all(buttonColor),
+//       fixedSize: MaterialStateProperty.all(
+//         Size(MediaQuery.sizeOf(context).width * 0.80, 40),
+//       ),
+//       elevation: MaterialStateProperty.all(4),
+//     ),
+//     onPressed: () {
+//       if (_questionNumber < widget.questionlenght.length) {
+//         _controller.nextPage(
+//           duration: const Duration(milliseconds: 800),
+//           curve: Curves.easeInOut,
+//         );
+//         setState(() {
+//           _questionNumber++;
+//           isLocked = false;
+//         });
+//       } else {
+//         _timer?.cancel();
+//         Navigator.pushReplacement(
+//           context,
+//           MaterialPageRoute(
+//             builder: (context) => ResultsScreen(
+//               score: score,
+//               totalQuestions: widget.questionlenght.length,
+//               whichTopic: widget.topicType,
+//             ),
+//           ),
+//         );
+//       }
+//     },
+//     child: Text(
+//       _questionNumber < widget.questionlenght.length
+//           ? 'Next Question'
+//           : 'Result',
+//       style: Theme.of(context).textTheme.bodySmall!.copyWith(
+//         color: Colors.white,
+//         fontSize: 16,
+//         fontWeight: FontWeight.w500,
+//       ),
+//     ),
+//   );
 
 }

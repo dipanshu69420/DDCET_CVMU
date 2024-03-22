@@ -2,7 +2,7 @@ import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:cvmuproject/views/quiz_screen.dart';
 import 'package:cvmuproject/widgets/flash_card_widget.dart';
 import 'package:cvmuproject/widgets/linear_progress_indicator_widget.dart';
-
+import 'package:cvmuproject/views/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -54,7 +54,10 @@ class _NewCardState extends State<NewCard> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomePage())
+                        );
                       },
                       icon: const Icon(
                         CupertinoIcons.clear,

@@ -23,20 +23,24 @@ class _LoginState extends State<Login> {
     return Scaffold(
       body: Center(
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.95,
-          width: MediaQuery.of(context).size.width * 0.95,
-          child: Form(
-            key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+        height: MediaQuery.of(context).size.height * 0.95,
+        width: MediaQuery.of(context).size.width * 0.95,
+        child: SingleChildScrollView(  // Wrap your Column with SingleChildScrollView
+        child: Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  alignment: Alignment.center,
-                  child: Image.asset(
-                    "assets/cvmu-logo.png",
-                    height: 200,
+                Padding(
+                  padding: const EdgeInsets.only(top: 100),  // Add padding to the top
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      "assets/cvmu-logo.png",
+                      height: 200,
+                    ),
                   ),
                 ),
                 Padding(
@@ -248,7 +252,7 @@ class _LoginState extends State<Login> {
           ),
         ),
       ),
-    );
+    ));
   }
   void login(String email, String password, BuildContext context) async {
     try {

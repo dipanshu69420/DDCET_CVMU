@@ -1,8 +1,8 @@
-import 'dart:async';
-
 import 'package:cvmuproject/views/results_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cvmuproject/views/home_screen.dart';
+import 'package:cvmuproject/views/instruction_screen.dart';
 
 class QuizScreen extends StatefulWidget {
   final String topicType;
@@ -10,46 +10,25 @@ class QuizScreen extends StatefulWidget {
   final dynamic optionsList;
   const QuizScreen(
       {super.key,
-      required this.questionlenght,
-      required this.optionsList,
-      required this.topicType});
+        required this.questionlenght,
+        required this.optionsList,
+        required this.topicType});
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  int questionTimerSeconds = 120;
-  Timer? _timer;
   int _questionNumber = 1;
   PageController _controller = PageController();
   int score = 0;
   bool isLocked = false;
   List optionsLetters = ["A.", "B.", "C.", "D."];
 
-  void startTimerOnQuestions() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (mounted) {
-        setState(() {
-          if (questionTimerSeconds > 0) {
-            questionTimerSeconds--;
-          } else {
-            _timer?.cancel();
-            navigateToNewScreen();
-          }
-        });
-      }
-    });
-  }
-
-  void stopTime() {
-    _timer?.cancel();
-  }
-
   void navigateToNewScreen() {
     if (_questionNumber < widget.questionlenght.length) {
       _controller.nextPage(
-        duration: const Duration(milliseconds: 600),
+        duration: const Duration(milliseconds: 1200),
         curve: Curves.easeInOut,
       );
       setState(() {
@@ -57,9 +36,7 @@ class _QuizScreenState extends State<QuizScreen> {
         isLocked = false;
       });
       _resetQuestionLocks();
-      startTimerOnQuestions();
     } else {
-      _timer?.cancel();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -78,18 +55,16 @@ class _QuizScreenState extends State<QuizScreen> {
     super.initState();
     _controller = PageController(initialPage: 0);
     _resetQuestionLocks();
-    startTimerOnQuestions();
   }
 
   @override
   void dispose() {
-    _timer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    const Color bgColor3 = Color(0xFF234277);
+    const Color bgColor3 = Color(0xff0065A7);
     const Color buttonColor = Color(0xffFFB200);
     return WillPopScope(
       onWillPop: () {
@@ -109,20 +84,12 @@ class _QuizScreenState extends State<QuizScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "${widget.topicType} Riddles",
+                      "${widget.topicType} Quiz",
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.w400),
                       overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      "Timer: $questionTimerSeconds",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
                     ),
                   ],
                 ),
@@ -135,7 +102,9 @@ class _QuizScreenState extends State<QuizScreen> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomePage()));
                         },
                         icon: const Icon(
                           CupertinoIcons.clear,
@@ -188,7 +157,7 @@ class _QuizScreenState extends State<QuizScreen> {
                               },
                               itemBuilder: (context, index) {
                                 final myquestions =
-                                    widget.questionlenght[index];
+                                widget.questionlenght[index];
                                 var optionsIndex = widget.optionsList[index];
 
                                 return Column(
@@ -199,8 +168,8 @@ class _QuizScreenState extends State<QuizScreen> {
                                           .textTheme
                                           .bodyLarge!
                                           .copyWith(
-                                            fontSize: 18,
-                                          ),
+                                        fontSize: 18,
+                                      ),
                                     ),
                                     const SizedBox(
                                       height: 25,
@@ -212,7 +181,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                           var color = Colors.grey.shade200;
 
                                           var questionOption =
-                                              myquestions.options[index];
+                                          myquestions.options[index];
                                           final letters = optionsLetters[index];
 
                                           if (myquestions.isLocked) {
@@ -229,13 +198,11 @@ class _QuizScreenState extends State<QuizScreen> {
                                           }
                                           return InkWell(
                                             onTap: () {
-                                              print(optionsIndex);
-                                              stopTime();
                                               if (!myquestions.isLocked) {
                                                 setState(() {
                                                   myquestions.isLocked = true;
                                                   myquestions
-                                                          .selectedWiidgetOption =
+                                                      .selectedWiidgetOption =
                                                       questionOption;
                                                 });
 
@@ -249,44 +216,41 @@ class _QuizScreenState extends State<QuizScreen> {
                                             },
                                             child: Container(
                                               padding: const EdgeInsets.all(10),
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 8),
+                                              margin: const EdgeInsets.symmetric(
+                                                  vertical: 8),
                                               decoration: BoxDecoration(
                                                 border:
-                                                    Border.all(color: color),
+                                                Border.all(color: color),
                                                 color: Colors.grey.shade100,
                                                 borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(10)),
+                                                const BorderRadius.all(
+                                                    Radius.circular(10)),
                                               ),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                MainAxisAlignment
+                                                    .spaceBetween,
                                                 children: [
                                                   Expanded(
                                                     child: Text(
                                                       "$letters ${questionOption.text}",
                                                       maxLines: 5,
                                                       overflow:
-                                                          TextOverflow.ellipsis,
+                                                      TextOverflow.ellipsis,
                                                       style: const TextStyle(
                                                           fontSize: 16),
                                                     ),
                                                   ),
                                                   isLocked == true
                                                       ? questionOption.isCorrect
-                                                          ? const Icon(
-                                                              Icons
-                                                                  .check_circle,
-                                                              color:
-                                                                  Colors.green,
-                                                            )
-                                                          : const Icon(
-                                                              Icons.cancel,
-                                                              color: Colors.red,
-                                                            )
+                                                      ? const Icon(
+                                                    Icons.check_circle,
+                                                    color: Colors.green,
+                                                  )
+                                                      : const Icon(
+                                                    Icons.cancel,
+                                                    color: Colors.red,
+                                                  )
                                                       : const SizedBox.shrink()
                                                 ],
                                               ),
@@ -295,17 +259,46 @@ class _QuizScreenState extends State<QuizScreen> {
                                         },
                                       ),
                                     ),
+                                    isLocked
+                                        ? buildElevatedButton()
+                                        : const SizedBox.shrink(),
+                                    const SizedBox(
+                                      height: 5,
+                                    )
                                   ],
                                 );
                               },
                             ),
                           ),
-                          isLocked
-                              ? buildElevatedButton()
-                              : const SizedBox.shrink(),
-                          const SizedBox(
-                            height: 5,
-                          )
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Image.asset(
+                                'assets/gcetlogo.jpg',
+                                width: 60,
+                                height: 60,
+                              ),
+                              const Spacer(),
+                              Image.asset(
+                                'assets/aditlogo.png',
+                                width: 60,
+                                height: 60,
+                              ),
+                              const Spacer(),
+                              Image.asset(
+                                'assets/mbitlogo.png',
+                                width: 50,
+                                height: 50,
+                              ),
+                              const Spacer(),
+                              Image.asset(
+                                'assets/bvmlogo.png',
+                                width: 50,
+                                height: 50,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
                         ],
                       ),
                     ),
@@ -323,7 +316,6 @@ class _QuizScreenState extends State<QuizScreen> {
     for (var question in widget.questionlenght) {
       question.isLocked = false;
     }
-    questionTimerSeconds = 20;
   }
 
   ElevatedButton buildElevatedButton() {
@@ -349,9 +341,7 @@ class _QuizScreenState extends State<QuizScreen> {
             isLocked = false;
           });
           _resetQuestionLocks();
-          startTimerOnQuestions();
         } else {
-          _timer?.cancel();
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -369,10 +359,10 @@ class _QuizScreenState extends State<QuizScreen> {
             ? 'Next Question'
             : 'Result',
         style: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
   }

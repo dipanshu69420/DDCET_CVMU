@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:cvmuproject/views/home_screen.dart';
 
 class ResultsScreen extends StatelessWidget {
-  const ResultsScreen(
-      {super.key,
-      required this.score,
-      required this.totalQuestions,
-      required this.whichTopic});
+  const ResultsScreen({
+    super.key,
+    required this.score,
+    required this.totalQuestions,
+    required this.whichTopic,
+  });
   final int score;
   final int totalQuestions;
   final String whichTopic;
@@ -15,11 +16,11 @@ class ResultsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const Color bgColor3 = Color(0xFF5170FD);
-    print(score);
-    print(totalQuestions);
     final double percentageScore = (score / totalQuestions) * 100;
     final int roundedPercentageScore = percentageScore.round();
-    const Color cardColor = Color(0xFF4993FA);
+    final int totalScore = calculateTotalScore(score);
+
+
     return WillPopScope(
       onWillPop: () {
         Navigator.popUntil(context, (route) => route.isFirst);
@@ -33,7 +34,10 @@ class ResultsScreen extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.popUntil(context, (route) => route.isFirst);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
               },
               icon: const Icon(
                 Icons.close,
@@ -47,52 +51,27 @@ class ResultsScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: "Results On Your ",
-                      style:
-                          Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                              ),
-                    ),
-                    for (var i = 0; i < "Riddles!!!".length; i++) ...[
-                      TextSpan(
-                        text: "Riddles!!!"[i],
-                        style:
-                            Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                  fontSize: 18 + i.toDouble(),
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                      ),
-                    ]
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  whichTopic.toUpperCase(),
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                        fontSize: 15,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                      ),
-                ),
-              ),
+              // Your title and topic widgets here
               ResultsCard(
-                  roundedPercentageScore: roundedPercentageScore,
-                  bgColor3: bgColor3),
+
+                totalScores: totalScore,
+                bgColor3: bgColor3,
+                roundedPercentageScore: roundedPercentageScore,
+              ),
+              // Text(
+              //   "Total Score: $totalScore",
+              //   style: TextStyle(
+              //     color: Colors.white,
+              //     fontSize: 18,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
               const SizedBox(
                 height: 25,
               ),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(cardColor),
+                  backgroundColor: MaterialStateProperty.all(bgColor3),
                   fixedSize: MaterialStateProperty.all(
                     Size(MediaQuery.of(context).size.width * 0.80, 40),
                   ),
@@ -118,5 +97,10 @@ class ResultsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  int calculateTotalScore(int score) {
+    int totalScore = score;
+    return totalScore;
   }
 }
