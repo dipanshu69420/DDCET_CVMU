@@ -6,6 +6,7 @@ import 'package:cvmuproject/views/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:cvmuproject/login/login.dart';
 
 class NewCard extends StatefulWidget {
   final String topicName;
@@ -19,8 +20,21 @@ class NewCard extends StatefulWidget {
 
 class _NewCardState extends State<NewCard> {
   final AppinioSwiperController controller = AppinioSwiperController();
+  late Locale _selectedLocale;
 
   @override
+  void initState() {
+    print("Starting...");
+    print(Login.getSelectedLocale());
+    if (Login.getSelectedLocale() == Locale('gu', 'IN')) {
+      _selectedLocale = Locale('gu', 'IN');
+    } else {
+      _selectedLocale = Locale('en', 'US');
+    }
+
+
+  }
+
   Widget build(BuildContext context) {
     //const Color bgColor = Color(0xFF4993FA);
     const Color bgColor3 = Color(0xFF5170FD);
@@ -56,7 +70,9 @@ class _NewCardState extends State<NewCard> {
                       onPressed: () {
                         Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => HomePage())
+                          MaterialPageRoute(
+                            builder: (context) => HomePage(selectedLocale: _selectedLocale),
+                          ),
                         );
                       },
                       icon: const Icon(
@@ -117,8 +133,8 @@ class _NewCardState extends State<NewCard> {
                       elevation: MaterialStateProperty.all(4),
                     ),
                     onPressed: () => controller.unswipe(),
-                    child: const Text(
-                      "Reorder Cards",
+                    child: Text(
+                      _selectedLocale==const Locale("gu", "IN") ? 'કાર્ડ્સ ફરીથી ગોઠવો' : 'Rearrange Cards',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,
@@ -148,8 +164,8 @@ class _NewCardState extends State<NewCard> {
                         ),
                       );
                     },
-                    child: const Text(
-                      "Prepare Subject Quiz",
+                    child: Text(
+                      _selectedLocale==const Locale("gu", "IN") ? 'વિષય ક્વિઝ તૈયાર કરો' : 'Prepare Subject Quiz',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,

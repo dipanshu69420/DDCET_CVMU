@@ -3,6 +3,7 @@ import 'package:cvmuproject/views/results_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cvmuproject/views/home_screen.dart';
+import 'package:cvmuproject/login/login.dart';
 
 class MockQuizScreen extends StatefulWidget {
   final String topicType;
@@ -27,6 +28,8 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
   bool isLocked = false;
   List optionsLetters = ["A.", "B.", "C.", "D."];
   List<int?> _selectedOptions = List.filled(4, null);
+  late Locale _selectedLocale;
+
 
   void startQuizTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -56,6 +59,7 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
           score: score,
           totalQuestions: widget.questionlenght.length,
           whichTopic: widget.topicType,
+          selectedLocale: _selectedLocale,
         ),
       ),
     );
@@ -80,6 +84,7 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
               score: score,
               totalQuestions: widget.questionlenght.length,
               whichTopic: widget.topicType,
+              selectedLocale: _selectedLocale,
             ),
           ),
         );
@@ -93,6 +98,15 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
     _controller = PageController(initialPage: 0);
     _resetQuestionLocks();
     startQuizTimer();
+    print("Starting...");
+    print(Login.getSelectedLocale());
+    if (Login.getSelectedLocale() == Locale('gu', 'IN')) {
+      _selectedLocale = Locale('gu', 'IN');
+    } else {
+      _selectedLocale = Locale('en', 'US');
+    }
+
+
   }
 
   @override
@@ -166,7 +180,9 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
                                     onPressed: () {
                                       Navigator.pushReplacement(
                                         context,
-                                        MaterialPageRoute(builder: (context) => HomePage()),
+                                        MaterialPageRoute(
+                                          builder: (context) => HomePage(selectedLocale: _selectedLocale),
+                                        ),
                                       );
                                     },
                                     child: const Text('Exit'),
@@ -265,7 +281,7 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
 
                                                   // Award marks based on the user's answer
                                                   if (questionOption.isCorrect) {
-                                                    score += 1;
+                                                    score += 2;
                                                     print(score);// Correct answer
                                                   } else {
                                                     score -= 1;
@@ -350,7 +366,7 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
                                     backgroundColor: MaterialStateProperty.all(Color(0xff0065A7)), // Change button background color to blue
                                   ),
                                   child: Text(
-                                    'Prev Question',
+                                    _selectedLocale==const Locale("gu", "IN") ? 'પાછલો પ્રશ્ન' : 'Prev Question',
                                     style: TextStyle(
                                       color: Colors.white, // Change text color to white
                                       fontSize: 13,
@@ -379,7 +395,7 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
                                     backgroundColor: MaterialStateProperty.all(Color(0xff0065A7)), // Change button background color
                                   ),
                                   child: Text(
-                                    'Next Question',
+                                    _selectedLocale==const Locale("gu", "IN") ? 'આગળનો પ્રશ્ન' : 'Next Question',
                                     style: TextStyle(
                                       color: Colors.white, // Change text color to white
                                       fontSize: 13,
@@ -394,21 +410,21 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: const Text("End Quiz"),
-                                          content: const Text("Are you sure you want to end the quiz and show the result?"),
+                                          title:  Text(_selectedLocale==const Locale("gu", "IN") ? 'ક્વિઝ સમાપ્ત કરો' : 'End Quiz'),
+                                          content:Text(_selectedLocale==const Locale("gu", "IN") ? 'શું તમે ખરેખર ક્વિઝ સમાપ્ત કરવા અને પરિણામ બતાવવા માંગો છો?' : 'Are you sure you want to end the quiz and show the result?'),
                                           actions: <Widget>[
                                             TextButton(
                                               onPressed: () {
                                                 Navigator.of(context).pop(); // Close the alert dialog
                                               },
-                                              child: const Text('Cancel'),
+                                              child: Text(_selectedLocale==const Locale("gu", "IN") ? 'રદ કરો' : 'Cancel'),
                                             ),
                                             TextButton(
                                               onPressed: () {
                                                 Navigator.of(context).pop(); // Close the alert dialog
                                                 navigateToResultsScreen(); // Navigate to the results screen
                                               },
-                                              child: const Text('Yes'),
+                                              child: Text(_selectedLocale==const Locale("gu", "IN") ? 'હા' : 'Yes'),
                                             ),
                                           ],
                                         );
@@ -419,7 +435,7 @@ class _MockQuizScreenState extends State<MockQuizScreen> {
                                     backgroundColor: MaterialStateProperty.all(Colors.orange), // Change button background color to orange
                                   ),
                                   child: Text(
-                                    'Show Result', // Change button text to "Button"
+                                    _selectedLocale==const Locale("gu", "IN") ? 'પરિણામ બતાવો' : 'Show Result', // Change button text to "Button"
                                     style: TextStyle(
                                       color: Colors.white, // Change text color to white
                                       fontSize: 13,

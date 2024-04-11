@@ -1,0 +1,16 @@
+{
+  "email": "Email",
+  "password": "Password",
+  "login": "Log in",
+  "signup": "Signup",
+  "invalid_credentials": "Invalid email or password or account doesn't exist",
+  "ddcetPreparation": "DDCET Preparation",
+  "mockTest" : "Mock Test",
+  "prepTest" : "Prep Test",
+  "instruction1" :"The Duration for the Test will be 2.5 hours i.e. 150 mins.",
+  "instruction2" :"The test contains 100 Questions which consists of questions of subjects Physics, Chemistry, Maths and English.",
+  "instruction3" :"Two marks for each correct answer shall be awarded.",
+  "instruction4" :"For each wrong answer and more than one attempted answer minus 0.5 (half) mark shall be added on obtained marks.",
+  "instruction5" :"Unattempted answers will have zero marks."
+
+}

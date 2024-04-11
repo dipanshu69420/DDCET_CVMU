@@ -10,27 +10,54 @@ import 'package:cvmuproject/views/quiz_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_tex/flutter_tex.dart';
-
+import 'dart:convert';
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final Locale selectedLocale;
+
+  const HomePage({Key? key, required this.selectedLocale}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
+
 class _HomePageState extends State<HomePage> {
+  late Locale _selectedLocale = Locale('en', 'US');
+  late Map<String, String> _localizedStrings={};
   bool isLoading = false;
   int loadingCard = -1;
-  Api api = new Api();
+  late Api api;
+
+
 
   @override
   void initState() {
     super.initState();
+    _selectedLocale = widget.selectedLocale;
+    _loadLocalizedStrings(_selectedLocale);
+    api = Api(_selectedLocale);
     api.getQuestion();
     fetchQuestions();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       _showAdPopup();
     });
+
+  }
+
+  Future<void> _loadLocalizedStrings(Locale locale) async {
+    String langCode = locale.languageCode;
+    String countryCode = locale.countryCode ?? '';
+    String localeName = langCode + (countryCode.isNotEmpty ? '_' + countryCode : '');
+
+    String jsonContent = await DefaultAssetBundle.of(context).loadString('assets/lang/$localeName.json');
+    Map<String, dynamic> decodedMap = jsonDecode(jsonContent);
+    Map<String, String> localizedStrings = Map<String, String>.from(decodedMap);
+
+    setState(() {
+      _localizedStrings = localizedStrings;
+    });
+    print(localeName);
+    print(widget.selectedLocale);
   }
 
   void fetchQuestions() {
@@ -56,8 +83,9 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext context) {
         return Theme(
             data: ThemeData(
-              // Set the background color of the dialog
-              dialogBackgroundColor: Colors.white,
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: Colors.blue,
+              ),
             ),
             child: AlertDialog(
               title: Center(child: const Text('Affiliated Colleges')),
@@ -154,6 +182,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     const Color bgColor = Color(0xFF4993FA);
     const Color bgColor3 = Color(0xFF5170FD);
+    if (_localizedStrings == null) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -189,7 +224,7 @@ class _HomePageState extends State<HomePage> {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: "DDCET Preparation",
+                        text: _localizedStrings['ddcetPreparation'] ?? 'DDCET Preparation',
                         style:
                         Theme.of(context).textTheme.headlineSmall!.copyWith(
                           fontSize: 24,
@@ -231,7 +266,7 @@ class _HomePageState extends State<HomePage> {
                             MaterialPageRoute(
                               builder: (context) => NewCard(
                                 typeOfTopic: value,
-                                topicName: topicsData.topicName,
+                                topicName: topicsData.getLocalizedTopicName(_selectedLocale),
                               ),
                             ),
                           ).then((value) {
@@ -273,7 +308,7 @@ class _HomePageState extends State<HomePage> {
                             //   child: TeXViewDocument(topicsData.topicName),
                             // ),
                             Text(
-                              topicsData.topicName,
+                              topicsData.getLocalizedTopicName(_selectedLocale),
                               textAlign: TextAlign.center,
                               style: Theme.of(context)
                                   .textTheme
@@ -322,8 +357,15 @@ class _HomePageState extends State<HomePage> {
                     await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => InstructionScreen(
-                          instructions: ["The Duration for the Test will be 2.5 hours i.e. 150 mins","The test contains 100 Questions which consists of questions of subjects Physics, Chemistry, Maths and English.","Two marks for each correct answer shall be awarded.","For each wrong answer and more than one attempted answer minus 0.5 (half) mark shall be added on obtained marks","Unattempted answers will have zero marks."],
-                          onStartQuiz: () {                            Navigator.of(context).pushReplacement(
+                          instructions: [
+                            _localizedStrings['instruction1'] ?? 'The Duration for the Test will be 2.5 hours i.e. 150 mins.',
+                            _localizedStrings['instruction2'] ?? 'The test contains 100 Questions which consists of questions of subjects Physics, Chemistry, Maths and English.',
+                            _localizedStrings['instruction3'] ?? 'Two marks for each correct answer shall be awarded.',
+                            _localizedStrings['instruction4'] ?? 'For each wrong answer and more than one attempted answer minus 0.5 (half) mark shall be added on obtained marks.',
+                            _localizedStrings['instruction5'] ?? 'Unattempted answers will have zero marks.',
+                          ],
+                          onStartQuiz: () {
+                            Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
                               builder: (context) => MockQuizScreen(
                                 questionlenght: widgetQuestionsList,
@@ -339,7 +381,7 @@ class _HomePageState extends State<HomePage> {
                   },
 
                   child: Text(
-                    "Mock Test",
+                    _localizedStrings['mockTest'] ?? 'Mock Test',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       fontSize: 16,
@@ -366,7 +408,12 @@ class _HomePageState extends State<HomePage> {
                     await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => InstructionScreen(
-                          instructions: ["The test contains 100 Questions which consists of questions of subjects Physics, Chemistry, Maths and English.","Two marks for each correct answer shall be awarded.","For each wrong answer and more than one attempted answer minus 0.5 (half) mark shall be added on obtained marks","Unattempted answers will have zero marks."],
+                          instructions: [
+                            _localizedStrings['instruction2'] ?? 'The test contains 100 Questions which consists of questions of subjects Physics, Chemistry, Maths and English.',
+                            _localizedStrings['instruction3'] ?? 'Two marks for each correct answer shall be awarded.',
+                            _localizedStrings['instruction4'] ?? 'For each wrong answer and more than one attempted answer minus 0.5 (half) mark shall be added on obtained marks.',
+                            _localizedStrings['instruction5'] ?? 'Unattempted answers will have zero marks.',
+                          ],
                           onStartQuiz: () {
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
@@ -384,7 +431,7 @@ class _HomePageState extends State<HomePage> {
                   },
 
                   child: Text(
-                    "Prep. Test",
+                    _localizedStrings['prepTest'] ?? 'Prep Test',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       fontSize: 16,

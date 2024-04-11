@@ -1,6 +1,7 @@
 import 'package:cvmuproject/widgets/results_card.dart';
 import 'package:flutter/material.dart';
 import 'package:cvmuproject/views/home_screen.dart';
+import 'package:cvmuproject/login/login.dart';
 
 class ResultsScreen extends StatelessWidget {
   const ResultsScreen({
@@ -8,14 +9,17 @@ class ResultsScreen extends StatelessWidget {
     required this.score,
     required this.totalQuestions,
     required this.whichTopic,
+    required this.selectedLocale
   });
   final int score;
   final int totalQuestions;
   final String whichTopic;
+  final Locale selectedLocale;
 
   @override
+
   Widget build(BuildContext context) {
-    const Color bgColor3 = Color(0xFF5170FD);
+    const Color bgColor3 = Color(0xff0065A7);
     final double percentageScore = (score / totalQuestions) * 100;
     final int roundedPercentageScore = percentageScore.round();
     final int totalScore = calculateTotalScore(score);
@@ -31,20 +35,6 @@ class ResultsScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
           backgroundColor: bgColor3,
           elevation: 0,
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
-                );
-              },
-              icon: const Icon(
-                Icons.close,
-                color: Colors.white,
-              ),
-            ),
-          ],
         ),
         backgroundColor: bgColor3,
         body: Center(
@@ -71,7 +61,7 @@ class ResultsScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(bgColor3),
+                  backgroundColor: MaterialStateProperty.all<Color>(Color(0xffFFB200)),
                   fixedSize: MaterialStateProperty.all(
                     Size(MediaQuery.of(context).size.width * 0.80, 40),
                   ),
@@ -80,7 +70,9 @@ class ResultsScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(selectedLocale: selectedLocale),
+                    ),
                   );
                 },
                 child: const Text(

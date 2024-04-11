@@ -14,7 +14,7 @@ class ResultsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color bgColor3 = Color(0xFF5170FD);
+    const Color bgColor3 = Color(0xff0065A7);
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.888,
       height: MediaQuery.of(context).size.height * 0.568,
@@ -38,13 +38,13 @@ class ResultsCard extends StatelessWidget {
                         textAlign: TextAlign.center,
                         text: TextSpan(
                           children: [
-                              TextSpan(
-                                text: "Congratulations!",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(fontSize: 40),
-                              ),
+                            TextSpan(
+                              text: "Congratulations!",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(fontSize: 30),
+                            ),
                             TextSpan(
                               text: " \n You Scored  \n",
                               style: Theme.of(context).textTheme.bodySmall,
@@ -55,8 +55,8 @@ class ResultsCard extends StatelessWidget {
                                   .textTheme
                                   .bodyLarge!
                                   .copyWith(
-                                    fontSize: 30,
-                                  ),
+                                fontSize: 30,
+                              ),
                             ),
                           ],
                         ),
@@ -85,7 +85,8 @@ class ResultsCard extends StatelessWidget {
                             ),
                             Image.asset("assets/bouncy-cup.gif",
                                 fit: BoxFit.fill,
-                                height: MediaQuery.of(context).size.height *
+                                height:
+                                MediaQuery.of(context).size.height *
                                     0.25),
                           ],
                         )
@@ -103,8 +104,9 @@ class ResultsCard extends StatelessWidget {
                             ),
                             Image.asset("assets/sad.png",
                                 fit: BoxFit.fill,
-                                height:
-                                MediaQuery.of(context).size.height *
+                                height: MediaQuery.of(context)
+                                    .size
+                                    .height *
                                     0.25),
                           ],
                         )
@@ -121,8 +123,9 @@ class ResultsCard extends StatelessWidget {
                             ),
                             Image.asset("assets/sad.png",
                                 fit: BoxFit.fill,
-                                height:
-                                MediaQuery.of(context).size.height *
+                                height: MediaQuery.of(context)
+                                    .size
+                                    .height *
                                     0.25),
                           ],
                         ),
@@ -139,8 +142,8 @@ class ResultsCard extends StatelessWidget {
             child: Container(
               height: 25,
               width: 25,
-              decoration:
-                  const BoxDecoration(color: bgColor3, shape: BoxShape.circle),
+              decoration: BoxDecoration(
+                  color: bgColor3, shape: BoxShape.circle),
             ),
           ),
           Positioned(
@@ -149,8 +152,8 @@ class ResultsCard extends StatelessWidget {
             child: Container(
               height: 25,
               width: 25,
-              decoration:
-                  const BoxDecoration(color: bgColor3, shape: BoxShape.circle),
+              decoration: BoxDecoration(
+                  color: bgColor3, shape: BoxShape.circle),
             ),
           ),
         ],

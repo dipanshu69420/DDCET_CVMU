@@ -22,8 +22,20 @@ class _SignupState extends State<Signup> {
   final TextEditingController _password = TextEditingController();
 
   bool isLoading = false;
+  late Locale _selectedLocale;
 
   @override
+  void initState() {
+    print("Starting...");
+    print(Login.getSelectedLocale());
+    if (Login.getSelectedLocale() == Locale('gu', 'IN')) {
+      _selectedLocale = Locale('gu', 'IN');
+    } else {
+      _selectedLocale = Locale('en', 'US');
+    }
+
+
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
@@ -60,14 +72,14 @@ class _SignupState extends State<Signup> {
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty) {
-                          return 'Enter a first name';
+                          return _selectedLocale == const Locale("gu", "IN") ? 'પ્રથમ નામ દાખલ કરો' : 'Enter a first name';
                         }
                         return null;
                       },
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: const Color.fromRGBO(238, 238, 238, 1),
-                        hintText: 'First Name',
+                        hintText: _selectedLocale == const Locale("gu", "IN") ? 'પ્રથમ નામ' : 'First Name',
                         hintStyle: const TextStyle(
                           color: Color.fromRGBO(36, 59, 85, 1),
                         ),
@@ -103,14 +115,14 @@ class _SignupState extends State<Signup> {
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty) {
-                          return 'Enter a last name';
+                          return _selectedLocale == const Locale("gu", "IN") ? 'છેલ્લું નામ દાખલ કરો' : 'Enter a last name';
                         }
                         return null;
                       },
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: const Color.fromRGBO(238, 238, 238, 1),
-                        hintText: 'Last Name',
+                        hintText: _selectedLocale == const Locale("gu", "IN") ? 'છેલ્લું નામ' : 'Last Name',
                         hintStyle: const TextStyle(
                           color: Color.fromRGBO(36, 59, 85, 1),
                         ),
@@ -146,14 +158,14 @@ class _SignupState extends State<Signup> {
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty) {
-                          return 'Enter valid College';
+                          return _selectedLocale == const Locale("gu", "IN") ? 'કોલેજ દાખલ કરો' : 'Enter College';
                         }
                         return null;
                       },
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: const Color.fromRGBO(238, 238, 238, 1),
-                        hintText: 'College',
+                        hintText: _selectedLocale == const Locale("gu", "IN") ? 'કોલેજ' : 'College',
                         hintStyle: const TextStyle(
                           color: Color.fromRGBO(36, 59, 85, 1),
                         ),
@@ -189,14 +201,14 @@ class _SignupState extends State<Signup> {
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty) {
-                          return 'Enter valid mobile number';
+                          return _selectedLocale == const Locale("gu", "IN") ? 'મોબાઈલ નમ્બર દાખલ કરો' : 'Enter Mobile No.';
                         }
                         return null;
                       },
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: const Color.fromRGBO(238, 238, 238, 1),
-                        hintText: 'Mobile No.',
+                        hintText: _selectedLocale == const Locale("gu", "IN") ? 'મોબાઈલ નમ્બર' : 'Mobile No.',
                         hintStyle: const TextStyle(
                           color: Color.fromRGBO(36, 59, 85, 1),
                         ),
@@ -233,14 +245,14 @@ class _SignupState extends State<Signup> {
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty) {
-                          return 'Enter valid city';
+                          return _selectedLocale == const Locale("gu", "IN") ? 'શહેર દાખલ કરો' : 'Enter City';
                         }
                         return null;
                       },
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: const Color.fromRGBO(238, 238, 238, 1),
-                        hintText: 'City',
+                        hintText: _selectedLocale == const Locale("gu", "IN") ? 'શહેર' : 'City',
                         hintStyle: const TextStyle(
                           color: Color.fromRGBO(36, 59, 85, 1),
                         ),
@@ -277,14 +289,14 @@ class _SignupState extends State<Signup> {
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty) {
-                          return 'Enter valid state';
+                          return _selectedLocale == const Locale("gu", "IN") ? 'રાજ્ય દાખલ કરો' : 'Enter State';
                         }
                         return null;
                       },
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: const Color.fromRGBO(238, 238, 238, 1),
-                        hintText: 'State',
+                        hintText: _selectedLocale == const Locale("gu", "IN") ? 'રાજ્ય' : 'State',
                         hintStyle: const TextStyle(
                           color: Color.fromRGBO(36, 59, 85, 1),
                         ),
@@ -321,14 +333,14 @@ class _SignupState extends State<Signup> {
                         if (value == null ||
                             value.isEmpty ||
                             !value.contains('@')) {
-                          return 'Enter valid email';
+                          return _selectedLocale == const Locale("gu", "IN") ? 'ઇમેઇલ દાખલ કરો' : 'Enter Email';
                         }
                         return null;
                       },
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: const Color.fromRGBO(238, 238, 238, 1),
-                        hintText: 'Email',
+                        hintText: _selectedLocale == const Locale("gu", "IN") ? 'ઇમેઇલ' : 'Email',
                         hintStyle: const TextStyle(
                           color: Color.fromRGBO(36, 59, 85, 1),
                         ),
@@ -365,14 +377,14 @@ class _SignupState extends State<Signup> {
                       obscureText: true,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Enter a Password';
+                          return _selectedLocale == const Locale("gu", "IN") ? 'પાસવર્ડ દાખલ કરો' : 'Enter Password';
                         }
                         return null;
                       },
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: const Color.fromRGBO(238, 238, 238, 1),
-                        hintText: 'Password',
+                        hintText: _selectedLocale == const Locale("gu", "IN") ? 'પાસવર્ડ' : 'Password',
                         hintStyle: const TextStyle(
                           color: Color.fromRGBO(36, 59, 85, 1),
                         ),
@@ -438,8 +450,8 @@ class _SignupState extends State<Signup> {
                         ),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Text(
-                        "Sign Up",
+                      child: Text(
+                        _selectedLocale == const Locale("gu", "IN") ? 'સાઇન અપ' : 'Sign Up',
                         style: TextStyle(
                           fontSize: 18,
                           fontFamily: "Adagio Sans",

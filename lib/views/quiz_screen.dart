@@ -2,7 +2,7 @@ import 'package:cvmuproject/views/results_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cvmuproject/views/home_screen.dart';
-import 'package:cvmuproject/views/instruction_screen.dart';
+import 'package:cvmuproject/login/login.dart';
 
 class QuizScreen extends StatefulWidget {
   final String topicType;
@@ -24,6 +24,7 @@ class _QuizScreenState extends State<QuizScreen> {
   int score = 0;
   bool isLocked = false;
   List optionsLetters = ["A.", "B.", "C.", "D."];
+  late Locale _selectedLocale;
 
   void navigateToNewScreen() {
     if (_questionNumber < widget.questionlenght.length) {
@@ -44,6 +45,7 @@ class _QuizScreenState extends State<QuizScreen> {
             score: score,
             totalQuestions: widget.questionlenght.length,
             whichTopic: widget.topicType,
+            selectedLocale: _selectedLocale,
           ),
         ),
       );
@@ -55,6 +57,11 @@ class _QuizScreenState extends State<QuizScreen> {
     super.initState();
     _controller = PageController(initialPage: 0);
     _resetQuestionLocks();
+    if (Login.getSelectedLocale() == Locale('gu', 'IN')) {
+      _selectedLocale = Locale('gu', 'IN');
+    } else {
+      _selectedLocale = Locale('en', 'US');
+    }
   }
 
   @override
@@ -104,7 +111,9 @@ class _QuizScreenState extends State<QuizScreen> {
                         onPressed: () {
                           Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => HomePage()));
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(selectedLocale: _selectedLocale),
+                            ),);
                         },
                         icon: const Icon(
                           CupertinoIcons.clear,
@@ -150,7 +159,7 @@ class _QuizScreenState extends State<QuizScreen> {
                               itemCount: widget.questionlenght.length,
                               onPageChanged: (value) {
                                 setState(() {
-                                  _questionNumber = value + 1;
+                                  _questionNumber = value + 2;
                                   isLocked = false;
                                   _resetQuestionLocks();
                                 });
@@ -349,6 +358,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 score: score,
                 totalQuestions: widget.questionlenght.length,
                 whichTopic: widget.topicType,
+                selectedLocale: _selectedLocale,
               ),
             ),
           );
@@ -356,8 +366,8 @@ class _QuizScreenState extends State<QuizScreen> {
       },
       child: Text(
         _questionNumber < widget.questionlenght.length
-            ? 'Next Question'
-            : 'Result',
+            ?  _selectedLocale==const Locale("gu", "IN") ? 'આગળનો પ્રશ્ન' : 'Next Question'
+            :  _selectedLocale==const Locale("gu", "IN") ? 'પરિણામ' : 'Result',
         style: Theme.of(context).textTheme.bodySmall!.copyWith(
           color: Colors.white,
           fontSize: 16,
